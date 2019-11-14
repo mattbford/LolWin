@@ -1,0 +1,29 @@
+{% extends "layout.html" %}
+
+{% block content %}
+
+    {% if query == null %}
+        <div class="view" style="background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('/media/homescreen.jpg');
+            height: 100%; background-repeat: no-repeat; background-size: cover; background-position: center center;">
+            <div class="mask rgba-gradient align-items-center">
+              <div class="container" style="height: 600px">
+                <div class="row">
+                  <div class="col-md-6 text-white text-center text-md-left mt-xl-5 mb-5 wow fadeInLeft" data-wow-delay="0.3s">
+                    <h1 class="h1-responsive font-weight-bold mt-sm-5">Use analytics to improve your game </h1>
+                    <hr class="hr-light">
+                    <h6 class="mb-4">Enter a game of League of Legends and search your summoner name to determine
+                    the likelihood that you win.</h6>
+                    <a class="btn btn-outline-white" href="/about">Learn more</a>
+                  </div>
+                  <div class="col-md-6 col-xl-5 mt-xl-5 wow fadeInRight" data-wow-delay="0.3s">
+                    <img src="/media/graph-stock.png" alt="" class="img-fluid">
+                  </div>
+                </div>
+              </div>
+            </div>
+        </div>
+    {% else %}
+        
+    {% endif %}    
+    
+{% endblock %}
