@@ -120,7 +120,7 @@ def getMatchData(matches):
                 time.sleep(2)
                 pass
             else:
-                print('Unexpected HTTP ERROR: {}: exiting'.format(response.status_code))
+                print('Unexpected HTTP ERROR: {} skipping'.format(response.status_code))
                 break
     return matchData
 
@@ -162,7 +162,7 @@ def main():
 
     print("Number of matches being scooped: " + str(len(matches)))
     matchData = getMatchData(matches)
-    filename = "datasets/matchData{}.txt".format(date)
+    filename = "datasets/matchData/matchData{}.txt".format(date)
     
     with open(filename, "w+") as matchDataFile:
         json.dump(matchData, matchDataFile)
