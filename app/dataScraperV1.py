@@ -60,14 +60,20 @@ def getAccountIds(players):
 # gets last 20 matchIds from each player in passed list using their accountId. Doesn't take duplicate matchIds. (approx. 5 minutes)
 def getMatchIds(players):
     matchIds = []
-    #get start of day epoch
-    today = datetime.utcnow().date()
+    
+    #GET TODAYS DATE
+    #today = datetime.utcnow().date()
+    #start = datetime(today.year, today.month, today.day, tzinfo=tz.tzutc())
+    #end = start + timedelta(1)
+    #end = int(datetime.timestamp(end) * 1000)
+    #start = int(datetime.timestamp(start) * 1000)
+
+    #GET YESTERDAYS DATE
+    today = datetime.utcnow().date() - timedelta(1)
     start = datetime(today.year, today.month, today.day, tzinfo=tz.tzutc())
-    #get end of day epoch
     end = start + timedelta(1)
     end = int(datetime.timestamp(end) * 1000)
     start = int(datetime.timestamp(start) * 1000)
-
 
     for player in players:
         # ranked solo/duo queueId = 420, max 20 game index
@@ -127,18 +133,18 @@ def main():
 
     print("get account ids")
     players = getAccountIds(players)
-    #with open('datasets/challengerPlayers.txt', 'w+') as playersfile:
+    #with open('datasets/Old/challengerPlayers.txt', 'w+') as playersfile:
     #    json.dump(players, playersfile)
 
     #read the challenger players json file and get matches
     #players = []
-    #with open('datasets/challengerPlayers.txt') as json_file:
+    #with open('datasets/Old/challengerPlayers.txt') as json_file:
     #    players = json.load(json_file)
 
     print("get match ids")
     matches, date = getMatchIds(players)
     
-    #filename = "datasets/matchIds{}.txt".format(date)
+    #filename = "datasets/Old/matchIds{}.txt".format(date)
     #with open(filename, "w+") as matchIdsFile:
     #    for match in matches:
     #        matchIdsFile.write("{}\n".format(match))
@@ -150,7 +156,7 @@ def main():
     #date = datetime(today.year, today.month, today.day, tzinfo=tz.tzutc())
     #date = int(datetime.timestamp(date) * 1000)
     #matches = []
-    #with open("datasets/matchIds1574121600000.txt") as match_file:
+    #with open("datasets/Old/matchIds1574121600000.txt") as match_file:
     #    for line in match_file:
     #        matches.append(line.strip('\n'))
 
