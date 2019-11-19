@@ -1,21 +1,18 @@
+import requests
+import json
+import time
+
 from django.shortcuts import render
 from django.http import HttpResponse
 
+championsURL= "http://ddragon.leagueoflegends.com/cdn/9.3.1/data/en_US/champion.json"
+championImageURL = "http://ddragon.leagueoflegends.com/cdn/9.22.1/img/champion/" #name.png
+#champions = []
+
+
+# home page should display some interesting analytics
 def home(request):
-
     context = {}
-
-    # this query is the search for the summoner name. This function servers as the root for all logic involving analytics.
-    # the search will gather your stats for games using that champ and train itself using generalized stats and comparing
-    # the results to your games.
-    #
-    #Steps:
-    #1. Scrape lol API for summoner names for each league (skill difference in division is likely arbitrary) focus on master/grandmaster
-    #   try to massage into CSV
-    #2. Search name and get most recent game. 
-
-
-
     query = ""
     if request.GET:
         query = request.GET['q']
@@ -25,3 +22,17 @@ def home(request):
 
 def about(request):
     return render(request, 'LolWin/about.html')
+
+def champions(request):
+    champions = getChampions()
+    context = {'champions': champions}
+    return render(request, 'LolWin/champion.html', context)
+
+def getChampions():
+    champions = []
+    championData = requests.get(championsURL).json()
+    for champId in championData['data'].keys():
+        champName = championData['data'][champId]['name']
+        champions.append({"name": champName, "id": champId})
+
+    return champions

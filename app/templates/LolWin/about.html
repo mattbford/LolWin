@@ -8,4 +8,11 @@
         <h1>About LolWin</h1>
         <p>currently a throw away page</p>
     </body>
+
+    <script>
+        $(document).ready(function() {
+            $("a.nav-link.active").removeClass("active");
+            $("#about_link").addClass("active");
+        });        
+    </script>
 {% endblock %}
