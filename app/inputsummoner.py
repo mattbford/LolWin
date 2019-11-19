@@ -5,7 +5,7 @@ import datetime
 
 #https://na1.api.riotgames.com/lol/summoner/v4/summoners/by-name/zynz?api_key=RGAPI-c948d1cc-eacd-4e6b-bd3f-2144baf8e6e1
 #name = "zynz"
-key="RGAPI-7fb9920c-cd22-46a9-840e-e86567b1f384"
+key=""
 #summoner_id = "https://na.api.riotgames.com/lol/summoner/v4/"
 def request(name):
     print("Request Done")
