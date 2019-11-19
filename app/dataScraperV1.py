@@ -69,7 +69,7 @@ def getMatchIds(players):
     #start = int(datetime.timestamp(start) * 1000)
 
     #GET YESTERDAYS DATE
-    today = datetime.utcnow().date() - timedelta(1)
+    today = datetime.utcnow().date() - timedelta(2)
     start = datetime(today.year, today.month, today.day, tzinfo=tz.tzutc())
     end = start + timedelta(1)
     end = int(datetime.timestamp(end) * 1000)
@@ -160,6 +160,7 @@ def main():
     #    for line in match_file:
     #        matches.append(line.strip('\n'))
 
+    print("Number of matches being scooped: " + str(len(matches)))
     matchData = getMatchData(matches)
     filename = "datasets/matchData{}.txt".format(date)
     
