@@ -5,6 +5,7 @@ import glob
 import matplotlib.pyplot as pl
 import pandas as pd
 import operator
+import time
 
 class champion:
 
@@ -15,7 +16,9 @@ class champion:
         self.wins = wins
         self.losses = losses
     def __str__(self):
-        return self.name + " picks: " + str(self.picks) + " bans: " + str(self.bans) + " wins: " + str(self.wins) + " losses: " + str(self.losses)
+        return self.name + str(self.picks) + str(self.bans) + str(self.wins) + str(self.losses)
+
+        #return self.name + " picks: " + str(self.picks) + " bans: " + str(self.bans) + " wins: " + str(self.wins) + " losses: " + str(self.losses)
 
 
 def champListFiller():
@@ -24,15 +27,18 @@ def champListFiller():
     return response.json()
 
 def main():
-    #with open('datasets/matchData1574121600000.txt') as json_file:
+    #with open('datasets/matchData/matchData1574121600000.txt') as json_file:
     #    data = json.load(json_file)
 
-    for filename in glob.glob("datasets/matchData*.txt"):
+    datasetsbyDate = {}
+    for filename in glob.glob("datasets/matchData/matchData*.txt"):
         print("Running on Filename: " + filename)
         print("---------------------------------")
+        date = filename[28:41] #just grabs the timestamp
+        date = int(date)/1000
+        date = time.strftime('%Y-%m-%d', time.localtime(date))
         with open(filename) as json_file:
             data = json.load(json_file)
-        #print(data[0])
         j=0
         champsBanned = {}
         champsSelected = {}
@@ -54,8 +60,8 @@ def main():
                 i+=1
             j+=1
 
-
-        stuff = []
+        champdetails = []
+        '''
         top5 = dict(sorted(champsSelected.items(), key=operator.itemgetter(1), reverse=True)[:5])
         x_13 = []
         for k in top5.keys():
@@ -69,22 +75,25 @@ def main():
         pl.ylabel("Games Picked")
         pl.legend()
         pl.show()
+        '''
 
         for k,v in sorted(champsSelected.items(), key=lambda x: x[1]):
             for c in champs['data']:
                 if champs['data'][c]['key'] == str(k):
                     #print(champs['data'][c]['name'], v, champsBanned.get(k), champsWin.get(k), champsLose.get(k))
-                    stuff.append(champion(champs['data'][c]['name'], v, champsBanned.get(k), champsWin.get(k), champsLose.get(k)))
+                    champdetails.append(champion(champs['data'][c]['name'], v, champsBanned.get(k), champsWin.get(k), champsLose.get(k)))
                     #print(champs['data'][c]['name'], v, champsWin[k]/v, champsLose[k]/v)
                     break
 
-        #for ch in stuff:
-            #print(ch)
 
-        print(len(stuff))
-        for x in stuff:
-            print(json.dumps(x.__dict__))
+        dailyArray = []
+        for x in champdetails:
+            dailyArray.append(json.dumps(x.__dict__))
+        datasetsbyDate.update({date : dailyArray})
 
+    for k in datasetsbyDate:
+        with open("datasets/"+k+".json", 'w') as outfile:
+            json.dump(datasetsbyDate[k], outfile)
 
 
 
