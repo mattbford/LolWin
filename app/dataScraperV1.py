@@ -21,7 +21,7 @@ from datetime import datetime
 from datetime import timedelta
 from dateutil import tz
 
-apikey = "RGAPI-47b8590d-0a69-4b83-923c-9d8ee99c6b14" # dont forget to update every 24 hours
+apikey = "RGAPI-3b087bc5-4d8b-4602-8bf5-dcff8e117bfb" # dont forget to update every 24 hours
 challengerReqUrl = "https://na1.api.riotgames.com/lol/league/v4/challengerleagues/by-queue/RANKED_SOLO_5x5"
 debug = True
 
@@ -58,7 +58,7 @@ def getAccountIds(players):
     return players
 
 # gets last 20 matchIds from each player in passed list using their accountId. Doesn't take duplicate matchIds. (approx. 5 minutes)
-def getMatchIds(players):
+def getMatchIds(players, time_delt):
     matchIds = []
     
     #GET TODAYS DATE
@@ -69,7 +69,7 @@ def getMatchIds(players):
     #start = int(datetime.timestamp(start) * 1000)
 
     #GET YESTERDAYS DATE
-    today = datetime.utcnow().date() - timedelta(2)
+    today = datetime.utcnow().date() - timedelta(time_delt)
     start = datetime(today.year, today.month, today.day, tzinfo=tz.tzutc())
     end = start + timedelta(1)
     end = int(datetime.timestamp(end) * 1000)
@@ -96,6 +96,10 @@ def getMatchIds(players):
             elif response.status_code == 404:
                 if debug:
                     print('HTTP ERROR: 404: no matches today')
+                break
+            elif response.status_code == 503:
+                if debug:
+                    print('HTTP ERROR: 503: service unavailable skipping')
                 break
             else:
                 print('Unexpected HTTP ERROR: {}: exiting'.format(response.status_code))
@@ -126,46 +130,47 @@ def getMatchData(matches):
 
 def main():
 
-    # get challenger players and append their accountIds to their data
-    print("get challenger players")
-    challengerResponse = getChallengerPlayers()
-    players = challengerResponse['entries']
+    for time_delt in [9,10]:
+        # get challenger players and append their accountIds to their data
+        print("get challenger players")
+        challengerResponse = getChallengerPlayers()
+        players = challengerResponse['entries']
 
-    print("get account ids")
-    players = getAccountIds(players)
-    #with open('datasets/Old/challengerPlayers.txt', 'w+') as playersfile:
-    #    json.dump(players, playersfile)
+        print("get account ids")
+        players = getAccountIds(players)
+        #with open('datasets/Old/challengerPlayers.txt', 'w+') as playersfile:
+        #    json.dump(players, playersfile)
 
-    #read the challenger players json file and get matches
-    #players = []
-    #with open('datasets/Old/challengerPlayers.txt') as json_file:
-    #    players = json.load(json_file)
+        #read the challenger players json file and get matches
+        #players = []
+        #with open('datasets/Old/challengerPlayers.txt') as json_file:
+        #    players = json.load(json_file)
 
-    print("get match ids")
-    matches, date = getMatchIds(players)
-    
-    #filename = "datasets/Old/matchIds{}.txt".format(date)
-    #with open(filename, "w+") as matchIdsFile:
-    #    for match in matches:
-    #        matchIdsFile.write("{}\n".format(match))
+        print("get match ids")
+        matches, date = getMatchIds(players, time_delt)
+        
+        #filename = "datasets/Old/matchIds{}.txt".format(date)
+        #with open(filename, "w+") as matchIdsFile:
+        #    for match in matches:
+        #        matchIdsFile.write("{}\n".format(match))
 
-    #read the matchIds file and get match data
+        #read the matchIds file and get match data
 
-    # dont need this if matchIds is run first
-    #today = datetime.utcnow().date()
-    #date = datetime(today.year, today.month, today.day, tzinfo=tz.tzutc())
-    #date = int(datetime.timestamp(date) * 1000)
-    #matches = []
-    #with open("datasets/Old/matchIds1574121600000.txt") as match_file:
-    #    for line in match_file:
-    #        matches.append(line.strip('\n'))
+        # dont need this if matchIds is run first
+        #today = datetime.utcnow().date()
+        #date = datetime(today.year, today.month, today.day, tzinfo=tz.tzutc())
+        #date = int(datetime.timestamp(date) * 1000)
+        #matches = []
+        #with open("datasets/Old/matchIds1574121600000.txt") as match_file:
+        #    for line in match_file:
+        #        matches.append(line.strip('\n'))
 
-    print("Number of matches being scooped: " + str(len(matches)))
-    matchData = getMatchData(matches)
-    filename = "datasets/matchData/matchData{}.txt".format(date)
-    
-    with open(filename, "w+") as matchDataFile:
-        json.dump(matchData, matchDataFile)
+        print("Number of matches being scooped: " + str(len(matches)))
+        matchData = getMatchData(matches)
+        filename = "datasets/matchData/matchData{}.txt".format(date)
+        
+        with open(filename, "w+") as matchDataFile:
+            json.dump(matchData, matchDataFile)
     
 
 main()
