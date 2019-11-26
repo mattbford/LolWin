@@ -16,7 +16,7 @@ class champion:
         self.wins = wins
         self.losses = losses
     def __str__(self):
-        return self.name + str(self.picks) + str(self.bans) + str(self.wins) + str(self.losses)
+        return "{Champion: \"" +self.name + "\",\"Picks\": "+str(self.picks) + ",\"Bans:\":" + str(self.bans) + ",\"Wins:\":" + str(self.wins) + ",\"Losses:\":" + str(self.losses) + "}"
 
         #return self.name + " picks: " + str(self.picks) + " bans: " + str(self.bans) + " wins: " + str(self.wins) + " losses: " + str(self.losses)
 
@@ -93,7 +93,11 @@ def main():
 
     for k in datasetsbyDate:
         with open("datasets/"+k+".json", 'w') as outfile:
-            json.dump(datasetsbyDate[k], outfile)
+            outfile.write("[")
+            for c in datasetsbyDate[k]:
+                outfile.write(c)
+            outfile.write("]")
+            #json.dump(datasetsbyDate[k], outfile)
 
 
 
