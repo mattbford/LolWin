@@ -85,7 +85,6 @@ def main():
             x.t2firstherald = data[i]['teams'][1]['firstRiftHerald']
             x.t2firstbaron = data[i]['teams'][1]['firstBaron']
             x.t2firsttower = data[i]['teams'][1]['firstTower']
-            x.t2firsttower = data[i]['teams'][1]['win']
             x.t2barons = data[i]['teams'][1]['baronKills']
             x.t2dragons = data[i]['teams'][1]['dragonKills']
             x.t2towers = data[i]['teams'][1]['towerKills']
