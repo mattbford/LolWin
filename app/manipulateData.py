@@ -152,8 +152,15 @@ def main():
     for k in datasetsbyDate:
         with open("datasets/"+k+".json", 'w') as outfile:
             outfile.write("[")
+            i = 0
             for c in datasetsbyDate[k]:
-                outfile.write(c)
+                if i+1 == len(datasetsbyDate[k]):
+                    outfile.write(c)
+                else:                    
+                    temp = c + ","
+                    outfile.write(temp)
+                    
+                i += 1
             outfile.write("]")
             #json.dump(datasetsbyDate[k], outfile)
 
