@@ -102,7 +102,7 @@ def main():
             for participant in data[j]['participants']:
                 champId = participant['championId']
                 stats = participant['stats']
-                champTotal = champsSelected[champId] # total games played              
+                champTotal = champsSelected[champId] # total games played
 
                 champSpecs["VS"][champId] = champSpecs["VS"].get(champId, 0) + (stats['visionScore']/champTotal)
                 champSpecs["DmgObj"][champId] = champSpecs["DmgObj"].get(champId, 0) + (stats['damageDealtToObjectives']/champTotal)
@@ -116,7 +116,7 @@ def main():
                 champSpecs["multiKill"][champId] = champSpecs["multiKill"].get(champId, 0) + (stats['largestMultiKill']/champTotal)
                 champSpecs["killStreak"][champId] = champSpecs["killStreak"].get(champId, 0) + (stats['largestKillingSpree']/champTotal)
                 champSpecs["CS"][champId] = champSpecs["CS"].get(champId, 0) + (stats['totalMinionsKilled']/champTotal)
-        
+            j+=1
 
         champdetails = []
         '''
