@@ -9,15 +9,31 @@ import time
 
 class champion:
 
-    def __init__(self, name, picks, bans, wins, losses):
+    def __init__(self, name, picks, bans, wins, losses, data, k):
         self.name = name
         self.picks = picks
         self.bans = bans
         self.wins = wins
         self.losses = losses
+        self.vs = data["VS"].get(k)
+        self.dmgObj = data["DmgObj"].get(k)
+        self.ccDealt = data["ccDealt"].get(k)
+        self.magicDmgDealt = data["magicDmgDealt"].get(k)
+        self.phyDmgDealt = data["phyDmgDealt"].get(k)
+        self.trueDmgDealt = data["trueDmgDealt"].get(k)
+        self.kills = data["kills"].get(k)
+        self.deaths = data["deaths"].get(k)
+        self.assists = data["assists"].get(k)
+        self.multiKill = data["multiKill"].get(k)
+        self.killStreak = data["killStreak"].get(k)
+        self.cs = data["CS"].get(k)
     def __str__(self):
-        return "{Champion: \"" +self.name + "\",\"Picks\": "+str(self.picks) + ",\"Bans:\":" + str(self.bans) + ",\"Wins:\":" + str(self.wins) + ",\"Losses:\":" + str(self.losses) + "}"
-
+        return "{\"Champion\": \"" +self.name + "\",\"Picks\": "+str(self.picks) + ",\"Bans:\":" + str(self.bans) + ",\"Wins:\":" + str(self.wins) + ",\"Losses:\":" + str(self.losses)
+        + "\", \"visionScore\": \"" + str(self.vs) + "\", \"damageDealtToObjectives\": \"" + str(self.dmgObj) + "\", \"totalTimeCrowdControlDealt\": \"" + self.ccDealt
+        + "\", \"magicDamageDealtToChampions\": \"" + self.magicDmgDealt + "\", \"physicalDamageDealtToChampions\": \"" + self.phyDmgDealt + "\", \"trueDamageDealt\": \""
+        + self.trueDmgDealt + "\", \"kills\": \"" + self.kills + "\", \"deaths\": \"" + self.deaths + "\", \"assists\": \"" + self.assists + "\", \"largestMultikill\": \""
+        + self.multiKill + "\", \"largestKillstreak\": \"" + self.killStreak + "\", \"cs\": \"" + self.cs +"\""
+        + "}"
         #return self.name + " picks: " + str(self.picks) + " bans: " + str(self.bans) + " wins: " + str(self.wins) + " losses: " + str(self.losses)
 
 
@@ -40,6 +56,8 @@ def main():
         with open(filename) as json_file:
             data = json.load(json_file)
         j=0
+
+
         champsBanned = {}
         champsSelected = {}
         champsWin = {}
@@ -49,16 +67,56 @@ def main():
             i=0
             for k in (0,1):
                 for banned in data[j]['teams'][k]['bans']:
-                    champsBanned[data[j]['teams'][k]['bans'][i]['championId']] = champsBanned.get(data[j]['teams'][k]['bans'][i]['championId'], 0) + 1
+                    champId = banned['championId']
+                    champsBanned[champId] = champsBanned.get(champId, 0) + 1
             for participant in data[j]['participants']:
-                champsSelected[data[j]['participants'][i]['championId']] = champsSelected.get(data[j]['participants'][i]['championId'], 0) + 1
-                if data[j]['participants'][i]['stats']['win']:
-                    champsWin[data[j]['participants'][i]['championId']] = champsWin.get(data[j]['participants'][i]['championId'], 0) + 1
+                champId = participant['championId']
+                stats = participant['stats']
+                champsSelected[champId] = champsSelected.get(champId, 0) + 1
+                if stats['win']:
+                    champsWin[champId] = champsWin.get(champId, 0) + 1
                 else:
-                    champsLose[data[j]['participants'][i]['championId']] = champsLose.get(data[j]['participants'][i]['championId'], 0) + 1
-
+                    champsLose[champId] = champsLose.get(champId, 0) + 1
                 i+=1
             j+=1
+
+        champSpecs = {
+            "VS": {},  # average vision scores for champ
+            "DmgObj": {}, # average damage dealt to objectives
+            "ccDealt": {}, # average time of cc dealt by champ
+            "magicDmgDealt": {}, # average amount of magic damage dealt to champs
+            "phyDmgDealt": {}, # average amount of physical damage dealt to champs
+            "trueDmgDealt": {}, # average amount of true damage dealt
+            "kills": {}, # average amount of kills per game
+            "deaths": {}, # average amount of deaths per game
+            "assists": {},  # average amount of assists per game
+            "multiKill": {}, # average largest multikill per game
+            "killStreak": {}, # average longest killing spree per game
+            "CS":{} # average CS per game
+        }
+
+
+        j=0
+        for match in data:
+            i=0
+            for participant in data[j]['participants']:
+                champId = participant['championId']
+                stats = participant['stats']
+                champTotal = champsSelected[champId] # total games played              
+
+                champSpecs["VS"][champId] = champSpecs["VS"].get(champId, 0) + (stats['visionScore']/champTotal)
+                champSpecs["DmgObj"][champId] = champSpecs["DmgObj"].get(champId, 0) + (stats['damageDealtToObjectives']/champTotal)
+                champSpecs["ccDealt"][champId] = champSpecs["ccDealt"].get(champId, 0) + (stats['totalTimeCrowdControlDealt']/champTotal)
+                champSpecs["magicDmgDealt"][champId] =  champSpecs["magicDmgDealt"].get(champId, 0) + (stats['magicDamageDealtToChampions']/champTotal)
+                champSpecs["phyDmgDealt"][champId] = champSpecs["phyDmgDealt"].get(champId, 0) + (stats['physicalDamageDealtToChampions']/champTotal)
+                champSpecs["trueDmgDealt"][champId] = champSpecs["trueDmgDealt"].get(champId, 0) + (stats['trueDamageDealt']/champTotal)
+                champSpecs["kills"][champId] = champSpecs["kills"].get(champId, 0) + (stats['kills']/champTotal)
+                champSpecs["deaths"][champId] = champSpecs["deaths"].get(champId, 0) + (stats['deaths']/champTotal)
+                champSpecs["assists"][champId] = champSpecs["assists"].get(champId, 0) + (stats['assists']/champTotal)
+                champSpecs["multiKill"][champId] = champSpecs["multiKill"].get(champId, 0) + (stats['largestMultiKill']/champTotal)
+                champSpecs["killStreak"][champId] = champSpecs["killStreak"].get(champId, 0) + (stats['largestKillingSpree']/champTotal)
+                champSpecs["CS"][champId] = champSpecs["CS"].get(champId, 0) + (stats['totalMinionsKilled']/champTotal)
+        
 
         champdetails = []
         '''
@@ -81,7 +139,7 @@ def main():
             for c in champs['data']:
                 if champs['data'][c]['key'] == str(k):
                     #print(champs['data'][c]['name'], v, champsBanned.get(k), champsWin.get(k), champsLose.get(k))
-                    champdetails.append(champion(champs['data'][c]['name'], v, champsBanned.get(k), champsWin.get(k), champsLose.get(k)))
+                    champdetails.append(champion(champs['data'][c]['name'], v, champsBanned.get(k), champsWin.get(k), champsLose.get(k), champSpecs, k))
                     #print(champs['data'][c]['name'], v, champsWin[k]/v, champsLose[k]/v)
                     break
 
