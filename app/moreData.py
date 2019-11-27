@@ -75,7 +75,6 @@ def main():
             x.t1firstherald = data[i]['teams'][0]['firstRiftHerald']
             x.t1firstbaron = data[i]['teams'][0]['firstBaron']
             x.t1firsttower = data[i]['teams'][0]['firstTower']
-            x.t1firsttower = data[i]['teams'][0]['win']
             x.t1barons = data[i]['teams'][0]['baronKills']
             x.t1dragons = data[i]['teams'][0]['dragonKills']
             x.t1towers = data[i]['teams'][0]['towerKills']
@@ -99,7 +98,7 @@ def main():
                 totalVision+=data[i]['participants'][j]['stats']['visionScore']
                 totalCC+=data[i]['participants'][j]['stats']['timeCCingOthers']
                 totalKills+=data[i]['participants'][j]['stats']['kills']
-                totalKills+=data[i]['participants'][j]['stats']['assists']
+                totalAssists+=data[i]['participants'][j]['stats']['assists']
                 totalDeaths+=data[i]['participants'][j]['stats']['deaths']
                 totalCS+=data[i]['participants'][j]['stats']['totalMinionsKilled']
                 totalGold+=data[i]['participants'][j]['stats']['goldEarned']
@@ -121,7 +120,7 @@ def main():
                 totalVision+=data[i]['participants'][j]['stats']['visionScore']
                 totalCC+=data[i]['participants'][j]['stats']['timeCCingOthers']
                 totalKills+=data[i]['participants'][j]['stats']['kills']
-                totalKills+=data[i]['participants'][j]['stats']['assists']
+                totalAssists+=data[i]['participants'][j]['stats']['assists']
                 totalDeaths+=data[i]['participants'][j]['stats']['deaths']
                 totalCS+=data[i]['participants'][j]['stats']['totalMinionsKilled']
                 totalGold+=data[i]['participants'][j]['stats']['goldEarned']
@@ -132,10 +131,9 @@ def main():
             x.t2deaths = totalDeaths
             x.t2cs = totalCS
             x.t2gold = totalGold
-            matches.append(x)
-
-        for match in  matches:
             print(x.toJSON()+",")
+            matches.append(x)
+            i+=1
 
 
 main()
