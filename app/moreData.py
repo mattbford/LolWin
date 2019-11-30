@@ -1,4 +1,5 @@
 import requests
+import json
 import datetime
 import glob
 import matplotlib.pyplot as pl
@@ -82,7 +83,7 @@ def main():
                 totalCS=0
                 totalGold=0
                 totalAssists=0
-                for j in range(0,9):
+                for j in range(0,4):
                     totalVision+=data[i]['participants'][j]['stats']['visionScore']
                     totalCC+=data[i]['participants'][j]['stats']['timeCCingOthers']
                     totalKills+=data[i]['participants'][j]['stats']['kills']
