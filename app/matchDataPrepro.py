@@ -11,6 +11,7 @@ import pandas as pd
 import operator
 import time
 import csv
+import seaborn as sns
 
 
 class matchData():
@@ -41,6 +42,19 @@ class matchData():
     def toJSON(self):
         return json.dumps(self, default=lambda o: o.__dict__,
             sort_keys=True, indent=4)
+
+def heatmap():
+    data = pd.read_csv("week_data.csv", header=0)
+    
+    # # Correlation Matrix Heatmap
+    f, ax = pl.subplots(figsize=(19, 10))
+    corr = data.corr()
+    hm = sns.heatmap(round(corr,2), annot=True, ax=ax, cmap="coolwarm",fmt='.2f',
+                    linewidths=.05)
+    t= f.suptitle('Correlation Heatmap', fontsize=12)
+    pl.autoscale()
+    pl.gcf().subplots_adjust(bottom=0.20)
+    pl.savefig("../media/matchDataHeatmap.png", format='png')
 
 def main():
     with open("week_data.csv", mode="w+", newline="") as csv_file:
@@ -144,6 +158,6 @@ def main():
                 csv_writer.writerow([x2.winner, x2.firstdrag, x2.firstinhib, x2.firstherald, x2.firstbaron, x2.firsttower, x2.barons,
                 x2.dragons, x2.vision, x2.towers, x2.cc, x2.kills, x2.assists, x2.deaths, x2.cs, x2.gold])
                 i+=1
-
+    heatmap()
 
 main()
