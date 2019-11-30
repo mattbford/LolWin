@@ -104,14 +104,14 @@ def main():
                 x1.dragons, x1.vision, x1.towers, x1.cc, x1.kills, x1.assists, x1.deaths, x1.cs, x1.gold])
 
                 # now get all data for team two
-                x2.firstdrag = data[i]['teams'][0]['firstDragon']
-                x2.firstinhib = data[i]['teams'][0]['firstInhibitor']
-                x2.firstherald = data[i]['teams'][0]['firstRiftHerald']
-                x2.firstbaron = data[i]['teams'][0]['firstBaron']
-                x2.firsttower = data[i]['teams'][0]['firstTower']
-                x2.barons = data[i]['teams'][0]['baronKills']
-                x2.dragons = data[i]['teams'][0]['dragonKills']
-                x2.towers = data[i]['teams'][0]['towerKills']
+                x2.firstdrag = data[i]['teams'][1]['firstDragon']
+                x2.firstinhib = data[i]['teams'][1]['firstInhibitor']
+                x2.firstherald = data[i]['teams'][1]['firstRiftHerald']
+                x2.firstbaron = data[i]['teams'][1]['firstBaron']
+                x2.firsttower = data[i]['teams'][1]['firstTower']
+                x2.barons = data[i]['teams'][1]['baronKills']
+                x2.dragons = data[i]['teams'][1]['dragonKills']
+                x2.towers = data[i]['teams'][1]['towerKills']
 
                 totalVision=0
                 totalCC=0
