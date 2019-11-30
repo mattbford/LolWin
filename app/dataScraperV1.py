@@ -1,17 +1,5 @@
-"""
-setup this file to be run once a day
-
-Plan:
-
-Get all challenger summoner IDs
-
-Scrape last 20 games from each summoner
-    get the data: Champion and win/loss
-
-output to JSON File every 100 games.
-
-
-"""
+## Uses the Riot Games API to scrape match data from the top 200 players
+## Written by Matthew Belford 2019
 
 import requests
 import json
@@ -21,7 +9,7 @@ from datetime import datetime
 from datetime import timedelta
 from dateutil import tz
 
-apikey = "RGAPI-3b087bc5-4d8b-4602-8bf5-dcff8e117bfb" # dont forget to update every 24 hours
+apikey = "RGAPI-13feb37c-cec3-4ac6-8eba-480ea728339d" # dont forget to update every 24 hours
 challengerReqUrl = "https://na1.api.riotgames.com/lol/league/v4/challengerleagues/by-queue/RANKED_SOLO_5x5"
 debug = True
 
@@ -60,15 +48,8 @@ def getAccountIds(players):
 # gets last 20 matchIds from each player in passed list using their accountId. Doesn't take duplicate matchIds. (approx. 5 minutes)
 def getMatchIds(players, time_delt):
     matchIds = []
-    
-    #GET TODAYS DATE
-    #today = datetime.utcnow().date()
-    #start = datetime(today.year, today.month, today.day, tzinfo=tz.tzutc())
-    #end = start + timedelta(1)
-    #end = int(datetime.timestamp(end) * 1000)
-    #start = int(datetime.timestamp(start) * 1000)
 
-    #GET YESTERDAYS DATE
+    #GET DATE of today - time_delt
     today = datetime.utcnow().date() - timedelta(time_delt)
     start = datetime(today.year, today.month, today.day, tzinfo=tz.tzutc())
     end = start + timedelta(1)
@@ -99,8 +80,9 @@ def getMatchIds(players, time_delt):
                 break
             elif response.status_code == 503:
                 if debug:
-                    print('HTTP ERROR: 503: service unavailable skipping')
-                break
+                    print('HTTP ERROR: 503: service unavailable waiting')
+                time.sleep(2)
+                pass
             else:
                 print('Unexpected HTTP ERROR: {}: exiting'.format(response.status_code))
                 exit()
@@ -130,7 +112,8 @@ def getMatchData(matches):
 
 def main():
 
-    for time_delt in [9,10]:
+    # change array range to go time_delt days back (used to get multiple days worth of data)
+    for time_delt in [0]:
         # get challenger players and append their accountIds to their data
         print("get challenger players")
         challengerResponse = getChallengerPlayers()

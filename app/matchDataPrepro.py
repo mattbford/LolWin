@@ -1,3 +1,7 @@
+## Takes matchDataFiles and preprocesses the data into a usable CSV file 
+## Written by Rolin Buckoke 2019
+## Altered by Matthew Belford 2019
+
 import requests
 import json
 import datetime

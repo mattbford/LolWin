@@ -1,3 +1,7 @@
+## Takes Match data files and extracts champion statistic, outputs a json file
+## Written by Rolin Buckoke 2019
+## Altered by Matthew Belford 2019
+
 import requests
 import json
 import datetime
