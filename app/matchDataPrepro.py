@@ -1,6 +1,6 @@
 ## Takes matchDataFiles and preprocesses the data into a usable CSV file 
 ## Written by Rolin Buckoke 2019
-## Altered by Matthew Belford 2019
+## Altered by Matthew Belford 2019 -> Heatmap + Refactor team segregation
 
 import requests
 import json
@@ -45,12 +45,9 @@ class matchData():
 
 def heatmap():
     data = pd.read_csv("week_data.csv", header=0)
-    
-    # # Correlation Matrix Heatmap
     f, ax = pl.subplots(figsize=(19, 10))
     corr = data.corr()
-    hm = sns.heatmap(round(corr,2), annot=True, ax=ax, cmap="coolwarm",fmt='.2f',
-                    linewidths=.05)
+    hm = sns.heatmap(round(corr,2), annot=True, ax=ax, cmap="coolwarm", linewidths=.02, fmt='.2f')
     t= f.suptitle('Correlation Heatmap', fontsize=12)
     pl.autoscale()
     pl.gcf().subplots_adjust(bottom=0.20)

@@ -15,7 +15,7 @@ debug = True
 
 # gets all 200 players in challenger from 
 def getChallengerPlayers():
-    URL =  challengerReqUrl + "?api_key=" + apikey
+    URL =  challengerReqUrl + "?api_key=" + apikey #uses league v4
     response = requests.get(URL)
     return response.json()
 
@@ -24,7 +24,7 @@ def getAccountIds(players):
     first = True
     for player in players:
         # infinite while loop allows redo of iteration if we run out of queries for that second
-        URL = "https://na1.api.riotgames.com/lol/summoner/v4/summoners/by-name/{}?api_key={}".format(player['summonerName'], apikey)
+        URL = "https://na1.api.riotgames.com/lol/summoner/v4/summoners/by-name/{}?api_key={}".format(player['summonerName'], apikey) #use summoner v4
         while True:            
             response = requests.get(URL)
             if debug:
@@ -45,7 +45,7 @@ def getAccountIds(players):
             
     return players
 
-# gets last 20 matchIds from each player in passed list using their accountId. Doesn't take duplicate matchIds. (approx. 5 minutes)
+# gets a days worth of matchIds from each player in passed list using their accountId. Doesn't take duplicate matchIds. (approx. 5 minutes)
 def getMatchIds(players, time_delt):
     matchIds = []
 
