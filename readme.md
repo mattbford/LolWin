@@ -3,12 +3,17 @@ This is a Django Web App for League of Legends analytics
 
 ## to download all dependencies for your local environment run
 ```
-pip3 install -r requirements.txt
+python3 -m pip install -r requirements.txt
 ```
 
-## if you install a package and need to update the requirements run
+## if you install a package and need to update the requirements use pipreqs
+to install pipreqs:
 ```
-pip3 freeze > requirements.txt
+pip install pipreqs
+```
+then run:
+```
+pipreqs /path/to/project
 ```
 ## run migrations
 ```
@@ -18,4 +23,18 @@ python3 manage.py migrate
 ## to start your local development webserver
 ```
 python3 manage.py runserver
+```
+
+## to deploy to gcloud use
+
+first collect static
+
+```
+python3 manage.py collectstatic
+```
+
+then run deploy
+
+```
+gcloud app deploy
 ```
