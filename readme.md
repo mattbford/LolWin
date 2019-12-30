@@ -25,16 +25,4 @@ python3 manage.py migrate
 python3 manage.py runserver
 ```
 
-## to deploy to gcloud use
-
-first collect static
-
-```
-python3 manage.py collectstatic
-```
-
-then run deploy
-
-```
-gcloud app deploy
-```
+## to deploy to gcloud use just push to github master
