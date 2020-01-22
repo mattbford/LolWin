@@ -1,5 +1,14 @@
-runtime: python37
 
+# enable for flexible setup
+#runtime: python
+#env: flex
+#entrypoint: waitress-serve --listen=*:$PORT LolWin.wsgi:application
+#
+#runtime_config:
+#    python_version: 3.7
+
+# enable for standard setup
+runtime: python37
 handlers:
 # This configures Google App Engine to serve the files in the app's static
 # directory.

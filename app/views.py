@@ -2,13 +2,13 @@ import requests
 import json
 import time
 
+from .matchDataPrepro import heatmap
 from django.shortcuts import render
 from django.http import HttpResponse
 
 championsURL= "http://ddragon.leagueoflegends.com/cdn/9.3.1/data/en_US/champion.json"
 championImageURL = "http://ddragon.leagueoflegends.com/cdn/9.22.1/img/champion/" #name.png
 #champions = []
-
 
 # home page should display some interesting analytics
 def home(request):
@@ -20,8 +20,10 @@ def home(request):
 
     return render(request, 'LolWin/home.html', context)
 
-def about(request):
-    return render(request, 'LolWin/about.html')
+def weekly(request):
+    if os.path.isfile('media/matchDataHeatmap.png') == false:
+        heatmap()
+    return render(request, 'LolWin/weekly.html')
 
 def champions(request):
     champions = getChampions()

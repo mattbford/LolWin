@@ -44,7 +44,7 @@ class matchData():
             sort_keys=True, indent=4)
 
 def heatmap():
-    data = pd.read_csv("week_data.csv", header=0)
+    data = pd.read_csv("/datasets/week_data.csv", header=0)
     f, ax = pl.subplots(figsize=(19, 10))
     corr = data.corr()
     hm = sns.heatmap(round(corr,2), annot=True, ax=ax, cmap="coolwarm", linewidths=.02, fmt='.2f')

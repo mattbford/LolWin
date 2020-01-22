@@ -1,0 +1,82 @@
+{% extends "layout.html" %}
+
+{% block content %}
+   <div class="container">
+        <div class="row" style="margin-top: 1rem">
+            <div class="col-sm-4">
+                <div class="card">
+                    <div class="card-header no-border-bottom">
+                        Games Played
+                    </div>
+                    <div class="card-content">
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-4">
+                <div class="card">
+                    <div class="card-header no-border-bottom">
+                        Towers Taken
+                    </div>
+                    <div class="card-content">
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-4">
+                <div class="card">
+                    <div class="card-header no-border-bottom">
+                        Champions Killed
+                    </div>
+                    <div class="card-content">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row" style="margin-top: 1rem">
+            <div class="col-sm-4">
+                <div class="card">
+                    <div class="card-header no-border-bottom">
+                        Dragons Slain
+                    </div>
+                    <div class="card-content">
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-4">
+                <div class="card">
+                    <div class="card-header no-border-bottom">
+                        Barons Defeated
+                    </div>
+                    <div class="card-content">
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-4">
+                <div class="card">
+                    <div class="card-header no-border-bottom">
+                        Damage Dealt
+                    </div>
+                    <div class="card-content">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row" style="margin-top: 1rem">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header no-border-bottom">
+                        Pearson Correlation Heatmap
+                    </div>
+                    <div class-"card-content">
+                        <img src="media/matchDataHeatmap.png"
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        $(document).ready(function() {
+            $("a.nav-link.active").removeClass("active");
+            $("#weekly_link").addClass("active");
+        });        
+    </script>
+{% endblock %}

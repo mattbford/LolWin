@@ -23,9 +23,15 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = '%as#w+rfk-qlgomb!b7$-&5-6toz3!@5q_9*79m%l5)f$$rt1p'
 
 # SECURITY WARNING: don't run with debug turned on in production!
+# For development make debug false and allowed hosts empty
+
+
 DEBUG = True
 
 ALLOWED_HOSTS = []
+
+#DEBUG = False
+#ALLOWED_HOSTS = ['lolwin.appspot.com']
 
 
 # Application definition
@@ -114,12 +120,11 @@ USE_L10N = True
 
 USE_TZ = True
 
-#image stuff
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
-MEDIA_URL = '/media/'
-
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.1/howto/static-files/
 
-STATIC_ROOT = 'static'
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 STATIC_URL = '/static/'
+
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIA_URL = '/media/'
