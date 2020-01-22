@@ -2,7 +2,7 @@ import requests
 import json
 import time
 
-from .matchDataPrepro import heatmap
+#from .matchDataPrepro import heatmap
 from django.shortcuts import render
 from django.http import HttpResponse
 
